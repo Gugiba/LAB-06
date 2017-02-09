@@ -2,7 +2,7 @@ package usuario;
 
 import jogo.Jogo;
 
-public class Veterano extends Usuario{
+public abstract class Veterano extends Usuario{
 
 	public Veterano(String nome, String login) throws Exception {
 		super(nome, login);
@@ -16,6 +16,11 @@ public class Veterano extends Usuario{
 		precoJogo -= precoJogo * 0.2;
 		return this.descontaFundo(precoJogo);
 		
+	}
+	
+	@Override
+	public void atualizaX2pPeloPreco(double preco){
+		this.x2p += 15 * preco;
 	}
 	
 	

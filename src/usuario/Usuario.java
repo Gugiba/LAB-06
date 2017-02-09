@@ -65,6 +65,12 @@ public abstract class Usuario {
 		return meusJogos.add(jogo);
 	}
 	
+	public abstract void atualizaX2pPeloPreco(double valor);
+
+	
+		
+	
+	
 
 	
 }
