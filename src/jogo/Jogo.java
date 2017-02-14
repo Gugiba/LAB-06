@@ -27,7 +27,7 @@ public abstract class Jogo {
 		this.estiloJogo = new HashSet<>();
 	}
 	
-	public abstract int registraJogada(int score,boolean progresso);
+	public abstract int registraJogada(int score,boolean zerou);
 	
 	public String getNome(){
 		return this.nome;
@@ -45,8 +45,10 @@ public abstract class Jogo {
 		this.qtnVezesJogadas +=1;
 	}
 	
-	public void adicionaZerada(){
+	public void adicionaZerada(boolean zerou){
+		if(zerou){
 		this.qtnZerado +=1;
+		}
 	}
 	
 	public int getJogadas(){
@@ -57,7 +59,15 @@ public abstract class Jogo {
 		return this.qtnZerado;
 	}
 	
-	
+	public boolean atualizarScoreMax(int score){
+		if(score > maiorScore){
+			maiorScore = score;
+			return true;
+		}
+		return false;
+	}
 
-	
+	public void setQtnJogadas(int Novaquantidade){
+		
+	}
 }

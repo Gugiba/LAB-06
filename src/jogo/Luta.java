@@ -8,9 +8,16 @@ public class Luta extends Jogo {
 	}
 	
 	
-	@Override
-	public int registraJogada(int pontuacao,boolean progresso){
-		return 0;
+
+	public int registraJogada(int score,boolean zerou){
+		int x2pGerado = 0;
+		adicionaJogada();
+		adicionaZerada(zerou);
+		if(atualizarScoreMax(score)){
+			x2pGerado+=score/1000;
+		}
+		
+		return x2pGerado;
 	}
 
 }

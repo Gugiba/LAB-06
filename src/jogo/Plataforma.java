@@ -7,8 +7,15 @@ public class Plataforma extends Jogo{
 		
 	}
 	
-	@Override
-	public int registraJogada(int pontuacao,boolean progresso){
+	
+	public int registraJogada(int score,boolean zerou){
+		adicionaJogada();
+		adicionaZerada(zerou);
+		atualizarScoreMax(score);
+		
+		if(zerou){
+			return 20;
+		}
 		return 0;
 	}
 

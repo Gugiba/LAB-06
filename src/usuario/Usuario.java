@@ -1,5 +1,6 @@
 package usuario;
 
+import java.util.HashMap;
 import java.util.HashSet;
 
 import jogo.Jogo;
@@ -12,7 +13,7 @@ public abstract class Usuario {
 	private String login;
 	protected int x2p;
 	private double carteira;
-	private HashSet<Jogo> meusJogos;
+	private HashMap<String,Jogo> meusJogos;
 	Validacao validacao = new Validacao();
 	
 	
@@ -24,7 +25,7 @@ public abstract class Usuario {
 		this.login = login;
 		this.nome = nome;
 		this.carteira = 0;
-		this.meusJogos = new HashSet<>();
+		this.meusJogos = new HashMap<>();
 	}
 	
 	public abstract boolean compraJogo(Jogo jogoAcomprar) throws Exception;
@@ -61,15 +62,34 @@ public abstract class Usuario {
 		
 	}
 	
-	public boolean adicionaJogo(Jogo jogo){
-		return meusJogos.add(jogo);
+	public void adicionaJogo(Jogo jogo){
+		 meusJogos.put(jogo.getNome(),jogo);
 	}
 	
 	public abstract void atualizaX2pPeloPreco(double valor);
 
 	
+	public void registraJogada(String nomeJogo,int score,boolean zerou) throws Exception{
+		int x2pGerado = 0;
+		validacao.validaNome(nomeJogo);
+		validacao.validaPreco(score);
+		Jogo  jogo = getJogo(nomeJogo);
+		x2pGerado+=jogo.registraJogada(score, zerou);
+		adicionaX2p(x2pGerado);
 		
+	}
 	
+	private void adicionaX2p(int x2pGerado) {
+		this.x2p+=x2pGerado;
+		
+	}
+
+	public Jogo getJogo(String nomeJogo){
+		if(meusJogos.containsKey(nome)){
+			return meusJogos.get(nome);
+		}
+		return null;
+	}
 	
 
 	
