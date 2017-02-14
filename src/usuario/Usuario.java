@@ -1,7 +1,8 @@
 package usuario;
 
-import java.util.HashMap;
+
 import java.util.HashSet;
+import java.util.Iterator;
 
 import jogo.Jogo;
 import validacao.Validacao;
@@ -13,19 +14,19 @@ public abstract class Usuario {
 	private String login;
 	protected int x2p;
 	private double carteira;
-	private HashMap<String,Jogo> meusJogos;
+	private HashSet<Jogo> meusJogos;
 	Validacao validacao = new Validacao();
 	
 	
 	public Usuario(String nome,String login) throws Exception{
 		
-		validacao.validaNome(nome);
-		validacao.validaNome(login);
+		validacao.validaString(nome);
+		validacao.validaString(login);
 		
 		this.login = login;
 		this.nome = nome;
 		this.carteira = 0;
-		this.meusJogos = new HashMap<>();
+		this.meusJogos = new HashSet<>();
 	}
 	
 	public abstract boolean compraJogo(Jogo jogoAcomprar) throws Exception;
@@ -44,13 +45,13 @@ public abstract class Usuario {
 	}
 	
 	public void adicionaFundos(double valor) throws Exception{
-		validacao.validaPreco(valor);
+		validacao.validaNumero(valor);
 		this.carteira += valor;
 		
 	}
 	
 	public boolean descontaFundo(double valor) throws Exception{
-		validacao.validaPreco(valor);
+		validacao.validaNumero(valor);
 		if(valor > this.carteira){
 			return false;
 		}
@@ -63,19 +64,34 @@ public abstract class Usuario {
 	}
 	
 	public void adicionaJogo(Jogo jogo){
-		 meusJogos.put(jogo.getNome(),jogo);
+		 meusJogos.add(jogo);
 	}
 	
 	public abstract void atualizaX2pPeloPreco(double valor);
 
 	
-	public void registraJogada(String nomeJogo,int score,boolean zerou) throws Exception{
+	public boolean registraJogada(String nomeJogo,int score,boolean zerou) throws Exception{
 		int x2pGerado = 0;
-		validacao.validaNome(nomeJogo);
-		validacao.validaPreco(score);
+		
+		//Validando os Parametros Recebidos
+		validacao.validaString(nomeJogo);
+		validacao.validaNumero(score);
+		
+		//Obtendo o Objeto do jogo
 		Jogo  jogo = getJogo(nomeJogo);
+		
+		//Checando se o Objeto é nulo
+		try {
+			validacao.objetoJogo(jogo);
+		} catch (Exception e) {
+			return false;
+		}
+		
+		
+		//Calculando a X2P
 		x2pGerado+=jogo.registraJogada(score, zerou);
 		adicionaX2p(x2pGerado);
+		return true;
 		
 	}
 	
@@ -84,13 +100,52 @@ public abstract class Usuario {
 		
 	}
 
-	public Jogo getJogo(String nomeJogo){
-		if(meusJogos.containsKey(nome)){
-			return meusJogos.get(nome);
+	public Jogo getJogo(String nomeJogo) throws Exception{
+		Iterator<Jogo> it = meusJogos.iterator();
+		
+		//Checando se o Jogo Está presente na Biblioteca do Usuário
+		while(it.hasNext()) {
+			Jogo jogoAProcurar  = it.next();
+			if(jogoAProcurar.getNome().equals(nomeJogo)) {
+				return jogoAProcurar;
+			}
+		
 		}
-		return null;
+		//Jogo não encontrado
+		throw new Exception("Este Jogo não Existe ");
 	}
-	
 
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((login == null) ? 0 : login.hashCode());
+		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
+		return result;
+	}
+
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Usuario other = (Usuario) obj;
+		if (login == null) {
+			if (other.login != null)
+				return false;
+		} else if (!login.equals(other.login))
+			return false;
+		if (nome == null) {
+			if (other.nome != null)
+				return false;
+		} else if (!nome.equals(other.nome))
+			return false;
+		return true;
+	}
 	
 }

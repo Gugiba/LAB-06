@@ -12,19 +12,19 @@ public abstract class Jogo {
 	private int maiorScore;
 	private int qtnVezesJogadas;
 	private int qtnZerado;
-	private HashSet<EstiloJogo> estiloJogo;
-	
+	private HashSet<Jogabilidade> jogabilidade;
+	private Validacao validacao = new Validacao();
 	public Jogo(String nome,double preco ) throws Exception{
-		Validacao validacao = new Validacao();
-		validacao.validaNome(nome);
-		validacao.validaPreco(preco);
+		
+		validacao.validaString(nome);
+		validacao.validaNumero(preco);
 		
 		this.nome = nome;
 		this.preco = preco;
 		this.maiorScore = 0;
 		this.qtnVezesJogadas = 0;
 		this.qtnZerado = 0;
-		this.estiloJogo = new HashSet<>();
+		this.jogabilidade = new HashSet<>();
 	}
 	
 	public abstract int registraJogada(int score,boolean zerou);
@@ -69,5 +69,41 @@ public abstract class Jogo {
 
 	public void setQtnJogadas(int Novaquantidade){
 		
+	}
+	
+	public boolean adicionaJogabilidade(Jogabilidade jogabilidade) throws Exception {
+		validacao.objetoJogabilidade(jogabilidade);
+		return this.jogabilidade.add(jogabilidade);
+	}
+	
+	public HashSet<Jogabilidade> getJogabilidade(){
+		return this.jogabilidade;
+	}
+
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
+		return result;
+	}
+
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Jogo other = (Jogo) obj;
+		if (nome == null) {
+			if (other.nome != null)
+				return false;
+		} else if (!nome.equals(other.nome))
+			return false;
+		return true;
 	}
 }
