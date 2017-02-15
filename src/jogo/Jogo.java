@@ -14,6 +14,9 @@ public abstract class Jogo {
 	private int qtnZerado;
 	private HashSet<Jogabilidade> jogabilidade;
 	private Validacao validacao = new Validacao();
+	public static final String NL = System.lineSeparator();
+	
+	
 	public Jogo(String nome,double preco ) throws Exception{
 		
 		validacao.validaString(nome);

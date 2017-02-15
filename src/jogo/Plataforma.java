@@ -18,5 +18,15 @@ public class Plataforma extends Jogo{
 		}
 		return 0;
 	}
+	
+	@Override
+	public String toString() {
+		String saida =  NL + "+ " + super.getNome() + " - Plataforma:" + NL +
+				"==> Jogou " + super.getJogadas() + " vez(es)" + NL + 
+				"==> Zerou " + super.getZeradas() + " vez(es)" + NL +
+				"==> Maior score: " + super.getMaiorScore() + NL;
+		
+		return saida;
+}
 
 }

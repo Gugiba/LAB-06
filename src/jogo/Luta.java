@@ -20,4 +20,13 @@ public class Luta extends Jogo {
 		return x2pGerado;
 	}
 
+	@Override
+	public String toString() {
+		String saida =  NL + "+ " + super.getNome() + " - Luta:" + NL +
+				"==> Jogou " + super.getJogadas() + " vez(es)" + NL + 
+				"==> Zerou " + super.getZeradas() + " vez(es)" + NL +
+				"==> Maior score: " + super.getMaiorScore() + NL;
+		
+		return saida;
+	}
 }

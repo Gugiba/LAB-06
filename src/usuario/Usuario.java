@@ -16,6 +16,7 @@ public abstract class Usuario {
 	private double carteira;
 	private HashSet<Jogo> meusJogos;
 	Validacao validacao = new Validacao();
+	public static final String NL = System.lineSeparator();
 	
 	
 	public Usuario(String nome,String login) throws Exception{
@@ -27,10 +28,16 @@ public abstract class Usuario {
 		this.nome = nome;
 		this.carteira = 0;
 		this.meusJogos = new HashSet<>();
+		
 	}
 	
 	public abstract boolean compraJogo(Jogo jogoAcomprar) throws Exception;
 	
+	public abstract int getX2p();
+		
+	public HashSet<Jogo> getJogos(){
+		return this.meusJogos;
+	}
 	
 	public double getDinheiro(){
 		return this.carteira;
@@ -42,6 +49,19 @@ public abstract class Usuario {
 	
 	public String getLogin(){
 		return this.login;
+	}
+	
+	public void setLogin(String login){
+		this.login = login;
+	}
+	
+	public void setNome(String nome){
+		this.nome = nome;
+	}
+	
+	
+	public void setMeusJogos(HashSet<Jogo> jogos){
+		this.meusJogos = jogos;
 	}
 	
 	public void adicionaFundos(double valor) throws Exception{
@@ -95,7 +115,7 @@ public abstract class Usuario {
 		
 	}
 	
-	private void adicionaX2p(int x2pGerado) {
+	public void adicionaX2p(int x2pGerado) {
 		this.x2p+=x2pGerado;
 		
 	}
@@ -147,5 +167,6 @@ public abstract class Usuario {
 			return false;
 		return true;
 	}
-	
+
+		
 }

@@ -15,5 +15,13 @@ public class RPG extends Jogo{
 		return 10;
 	}
 	
-    
+    @Override
+    public String toString() {
+    	String saida =  NL + "+ " + super.getNome() + " - RPG:" + NL +
+				"==> Jogou " + super.getJogadas() + " vez(es)" + NL + 
+				"==> Zerou " + super.getZeradas() + " vez(es)" + NL +
+				"==> Maior score: " + super.getMaiorScore() + NL;
+		
+		return saida;
+    }
 }
